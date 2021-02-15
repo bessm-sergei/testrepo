@@ -1,0 +1,12 @@
+/var/log/nginx/*log {
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+      /etc/init.d/nginx reopen_logs
+      nice /usr/bin/s3cmd sync /var/log/nginx/*.gz s3://&lt;YOUR-S3-BUCKET-NAME/nginx/
+    endscript
+}
